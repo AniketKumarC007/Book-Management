@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const router = require("./routes/bookRoutes");
 const app = express();
-const PORT = 6001;
+const PORT = 5000;
 const MONGO_URL ='mongodb+srv://AniketK07:1234@cluster0.bdhga.mongodb.net/?retryWrites=true&w=majority'
 
 app.use(express.json());
