@@ -28,6 +28,7 @@ const getById = async (req, res, next) => {
   return res.status(200).json({ book });
 };
 
+
 const createBook = async (req, res, next) => {
   const { title, author,isbn, description, price, image } = req.body;
   let book;
@@ -66,7 +67,8 @@ const updateBook = async (req, res, next) => {
     });
     book = await book.save();
   } catch (err) {
-    console.log(err);
+    console.log ("error found") ;
+    // console.log(err);
   }
   if (!book) {
     return res.status(404).json({ message: "Unable To Update By this ID" });

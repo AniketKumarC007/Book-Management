@@ -16,7 +16,7 @@ const Books = () => {
   useEffect(() => {
     fetchHandler().then((data) => setBooks(data.books));
   }, []);
-  console.log(books);
+  // console.log(books);
   const Book = (props) => {
     const { _id, title, author,isbn, description, price, image } = props.book;
     const deleteHandler = async () => {
@@ -65,30 +65,3 @@ const Books = () => {
 };
 
 export default Books;
-// .update-button {
-//   padding: 8px 16px;
-//   border: none;
-//   background-color: #007bff; 
-//   color: white;
-//   border-radius: 5px;
-//   cursor: pointer;
-//   transition: background-color 0.3s ease;
-// }
-
-// .update-button:hover {
-//   background-color: #0056b3; /* Darker blue color on hover */
-// }
-
-// .delete-button {
-//   margin-top: 10px;
-//   padding: 8px 16px;
-//   border: none;
-//   background-color: #4caf50;
-//   color: white;
-//   cursor: pointer;
-//   transition: background-color 0.3s ease-in-out;
-// }
-
-// .delete-button:hover {
-//   background-color: red;
-// }

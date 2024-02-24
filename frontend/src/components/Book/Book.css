@@ -85,13 +85,13 @@ li {
 }
 
 .update-button {
-  padding: 8px 16px;
-  border: none;
+  padding: 8px 16px !important;;
+  border: none !important;;
   background-color: #007bff !important; ; 
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  color: white !important;;
+  border-radius: 5px !important;;
+  cursor: pointer !important;;
+  transition: background-color 0.3s ease !important;;
 }
 
 .update-button:hover {

@@ -4,6 +4,7 @@ import {
   FormControlLabel,
   FormLabel,
   TextField,
+  Typography
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -11,6 +12,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const BookDetail = () => {
   const [inputs, setInputs] = useState();
+  const [err, setErr] = useState(null);
   const id = useParams().id;
  
   const history = useNavigate();
@@ -25,7 +27,8 @@ const BookDetail = () => {
   }, [id]);
 
   const sendRequest = async () => {
-    await axios
+    try{
+      await axios
       .put(`http://localhost:5000/books/${id}`, {
         title: String(inputs.name),
         author: String(inputs.author),
@@ -34,17 +37,28 @@ const BookDetail = () => {
         price: Number(inputs.price),
         image: String(inputs.image),
       })
-      .then((res) => res.data);
+      // .then((res) => res.data);
+      setErr(null); 
+      history("/books");
+    }
+    catch(error){
+      console.log ("In here") ;
+      console.log (error.response.data.error || 'An error occurred') ;
+      setErr(error.response.data.error || 'An error occurred') ;
+    }
+    
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    sendRequest().then(() => history("/books"));
+    // sendRequest().then(() => history("/books"));
+    sendRequest();
   };
   const handleChange = (e) => {
     setInputs((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
+    setErr(null);
   };
 
   return (
@@ -122,7 +136,11 @@ const BookDetail = () => {
               name="image"
             /> */}
             
-
+            {err && (
+          <Typography variant="body2" color="error" marginTop={1}>
+            {err}
+          </Typography>
+        )}
             <Button variant="contained" type="submit">
               Update Book
             </Button>

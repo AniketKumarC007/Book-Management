@@ -1,139 +1,6 @@
-// import {
-//   Button,
-//   Checkbox,
-//   FormControlLabel,
-//   FormLabel,
-//   TextField,
-//   Typography,
-// } from "@mui/material";
-// import { Box } from "@mui/system";
-// import axios from "axios";
-// import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
 
-// const AddBook = () => {
-//   const history = useNavigate();
-//   const [inputs, setInputs] = useState({
-//     name: "",
-//     author: "",
-//     isbn:"",
-//     price: "",
-//     description: "",
-//     image: "Random Image URL",
-//   });
-//   const [checked, setChecked] = useState(false);
-//   const handleChange = (e) => {
-//     setInputs((prevState) => ({
-//       ...prevState,
-//       [e.target.name]: e.target.value,
-//     }));
-//     // console.log(e.target.name, "Value", e.target.value);
-//   };
-
-//   const sendRequest = async () => {
-//     await axios
-//       .post("http://localhost:5000/books", {
-//         title: String(inputs.name),
-//         author: String(inputs.author),
-//         isbn: String(inputs.isbn),
-//         description: String(inputs.description),
-//         price: Number(inputs.price),
-//         image: String(inputs.image),
-//         available: Boolean(checked),
-//       })
-//       .then((res) => res.data);
-//   };
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     console.log(inputs, checked);
-//     sendRequest().then(() => history("/books"));
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <Box
-//         display="flex"
-//         flexDirection="column"
-//         justifyContent={"center"}
-//         maxWidth={700}
-//         alignContent={"center"}
-//         alignSelf="center"
-//         marginLeft={"auto"}
-//         marginRight="auto"
-//         marginTop={10}
-//       >
-//         <FormLabel>Name</FormLabel>
-//         <TextField
-//           value={inputs.name}
-//           onChange={handleChange}
-//           margin="normal"
-//           fullWidth
-//           variant="outlined"
-//           name="name"
-//         />
-//         <FormLabel>Author</FormLabel>
-//         <TextField
-//           value={inputs.author}
-//           onChange={handleChange}
-//           margin="normal"
-//           fullWidth
-//           variant="outlined"
-//           name="author"
-//         />
-//         <FormLabel>ISBN</FormLabel>
-//         <TextField
-//           value={inputs.isbn}
-//           onChange={handleChange}
-//           margin="normal"
-//           fullWidth
-//           variant="outlined"
-//           name="isbn"
-//         />
-//         <FormLabel>Description</FormLabel>
-//         <TextField
-//           value={inputs.description}
-//           onChange={handleChange}
-//           margin="normal"
-//           fullWidth
-//           variant="outlined"
-//           name="description"
-//         />
-//         <FormLabel>Price</FormLabel>
-//         <TextField
-//           value={inputs.price}
-//           onChange={handleChange}
-//           type="number"
-//           margin="normal"
-//           fullWidth
-//           variant="outlined"
-//           name="price"
-//         />
-//         {/* <FormLabel>Image</FormLabel>
-//         <TextField
-//           value={inputs.image}
-//           onChange={handleChange}
-//           margin="normal"
-//           fullWidth
-//           variant="outlined"
-//           name="image"
-//         /> */}
-        
-
-//         <Button variant="contained" type="submit">
-//           Add Book
-//         </Button>
-//       </Box>
-//     </form>
-//   );
-// };
-
-// export default AddBook;
 import {
   Button,
-  Checkbox,
-  FormControlLabel,
-  FormLabel,
   TextField,
   Typography,
 } from "@mui/material";
@@ -153,15 +20,18 @@ const AddBook = () => {
     image: "Random Image URL",
   });
   const [checked, setChecked] = useState(false);
+  const [err, setErr] = useState(null);
   const handleChange = (e) => {
     setInputs((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
+    setErr(null);
   };
 
   const sendRequest = async () => {
-    await axios
+    try{
+      await axios
       .post("http://localhost:5000/books", {
         title: String(inputs.name),
         author: String(inputs.author),
@@ -171,12 +41,24 @@ const AddBook = () => {
         image: String(inputs.image),
         available: Boolean(checked),
       })
-      .then((res) => res.data);
+      // .then((res) => res.data);
+      setErr(null); 
+      history("/books");
+    } 
+    catch(error){
+      console.log ("In here") ;
+      // console.log() ;
+      
+      console.log (error.response.data.error || 'An error occurred') ;
+      setErr(error.response.data.error || 'An error occurred') ;
+    }
+    
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    sendRequest().then(() => history("/books"));
+    // sendRequest().then(() => history("/books"));
+    sendRequest();
   };
 
   return (
@@ -241,9 +123,15 @@ const AddBook = () => {
           variant="outlined"
           name="price"
         />
+        {err && (
+          <Typography variant="body2" color="error" marginTop={1}>
+            {err}
+          </Typography>
+        )}
         <Button variant="contained" type="submit" color="primary" size="large">
           Add Book
         </Button>
+        
       </Box>
     </form>
   );
