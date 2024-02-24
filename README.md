@@ -7,6 +7,6 @@ Backend server will start now
 
 Now go to frontend folder 
 ### Run npm i 
-### Run node index.js 
+### Run npm start
 
 open localhost:3000 in the browser 
